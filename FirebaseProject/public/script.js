@@ -41,7 +41,8 @@ function drawArt(ctx){
   ctx.save();
   let time = new Date();
   let displacement = (Math.random()*time.getSeconds());
-  ctx.rotate(Math.PI/180*displace*40);
+  
+  ctx.rotate(Math.PI/180*displace*time.getSeconds());
   ctx.moveTo(-70*Math.cos(0.75*Math.PI)-30+displace , -70*Math.sin(0.75*Math.PI)-80+displacement);
   ctx.arc(-70*Math.cos(0.75*Math.PI)-30+displace ,-70*Math.sin(0.75*Math.PI)-50+displacement ,30,0.5*Math.PI,1.5*Math.PI);
 
