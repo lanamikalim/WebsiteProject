@@ -26,6 +26,8 @@ if(window.localStorage.myHighScore!=undefined){
 }
 function drawArt(ctx){
   ctx.beginPath();
+  ctx.fillStyle = randomC();
+  ctx.strokeStyle = randomC();
   ctx.save();
   ctx.arc(displace,0,150,0.75*Math.PI,1.75*Math.PI);
   ctx.moveTo(150*Math.cos(0.75*Math.PI)+displace ,150*Math.sin(0.75*Math.PI)-10 );
@@ -37,7 +39,8 @@ function drawArt(ctx){
   ctx.lineTo(-150*Math.cos(1.75*Math.PI)+250+displace ,-150*Math.sin(1.75*Math.PI));
   ctx.lineTo(140*Math.cos(1.75*Math.PI)+60+displace ,140*Math.sin(1.75*Math.PI));
   ctx.restore();
-
+  ctx.fillStyle = randomC();
+  ctx.strokeStyle = randomC();
   ctx.save();
   let time = new Date();
   let displacement = (Math.random()*time.getSeconds());
@@ -58,17 +61,20 @@ function drawArt(ctx){
   randColour();
 }
 let boomer = 0;
+function randomC(){
+  return "#"+Math.floor(Math.random()*16777215).toString(16);
+}
 function randColour(){
-  let i= Math.floor(Math.random()*boomer).toString(16);
-  boomer+=30;
+  let i= Math.floor(10*boomer%16777215).toString(16);
+  boomer+=1;
   let boi = document.getElementById('bruh');
   document.body.style.backgroundColor="#"+i;
 }
 function draw(){
   var ctx = document.getElementById('canvas').getContext('2d');
   ctx.clearRect(0, 0, 900, 700);
-  ctx.fillStyle = 'rgba(255, 10, 255, 1)';
-  ctx.strokeStyle = 'rgba(255, 10, 255, 0.4)';
+  ctx.fillStyle = randomC();
+  ctx.strokeStyle = randomC();
   ctx.globalCompositeOperation = 'destination-over';
 randColour();
   ctx.save();
