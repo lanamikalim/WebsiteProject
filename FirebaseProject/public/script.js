@@ -11,7 +11,8 @@ gameIsRunning = false;
 waitTime = currentSequence * 100;
 currentScore = 0;
 currentHighScore = window.localStorage.myHighScore;
-
+let displace = 0;
+let right = 1;
 console.log("currentHighScore"+ currentHighScore);
 //GAME CONTROL
 
@@ -23,7 +24,66 @@ if(window.localStorage.myHighScore!=undefined){
   document.getElementById("highScore").innerHTML="Your High Score: 0";
 
 }
+function drawArt(ctx){
+  ctx.beginPath();
+  ctx.fillStyle = randomC();
+  ctx.strokeStyle = randomC();
+  ctx.save();
+  ctx.arc(displace,0,150,0.75*Math.PI,1.75*Math.PI);
+  ctx.moveTo(150*Math.cos(0.75*Math.PI)+displace ,150*Math.sin(0.75*Math.PI)-10 );
+  ctx.lineTo(170*Math.cos(1.75*Math.PI)+displace ,170*Math.sin(1.75*Math.PI));
+  ctx.lineTo(170*Math.cos(1.75*Math.PI)+displace+60 ,170*Math.sin(1.75*Math.PI));
+  ctx.lineTo(-250*Math.cos(1.75*Math.PI)+60+displace ,-250*Math.sin(1.75*Math.PI));
+  ctx.lineTo(150*Math.cos(0.75*Math.PI)+displace ,150*Math.sin(0.75*Math.PI)-10 );
+  ctx.moveTo(-150*Math.cos(1.75*Math.PI)+60+displace ,-150*Math.sin(1.75*Math.PI));
+  ctx.lineTo(-150*Math.cos(1.75*Math.PI)+250+displace ,-150*Math.sin(1.75*Math.PI));
+  ctx.lineTo(140*Math.cos(1.75*Math.PI)+60+displace ,140*Math.sin(1.75*Math.PI));
+  ctx.restore();
+  ctx.fillStyle = randomC();
+  ctx.strokeStyle = randomC();
+  ctx.save();
+  let time = new Date();
+  let displacement = (Math.random()*time.getSeconds());
 
+  ctx.rotate(Math.PI/180*displace*time.getSeconds());
+  ctx.moveTo(-70*Math.cos(0.75*Math.PI)-30+displace , -70*Math.sin(0.75*Math.PI)-80+displacement);
+  ctx.arc(-70*Math.cos(0.75*Math.PI)-30+displace ,-70*Math.sin(0.75*Math.PI)-50+displacement ,30,0.5*Math.PI,1.5*Math.PI);
+
+  ctx.restore();
+  if(displace > 180){
+    right = -1;
+  }
+  if(displace < -180){
+    right = 1;
+  }
+  displace += right;
+  ctx.stroke();
+  randColour();
+}
+let boomer = 0;
+function randomC(){
+  return "#"+Math.floor(Math.random()*16777215).toString(16);
+}
+function randColour(){
+  let i= Math.floor(10*boomer%16777215).toString(16);
+  boomer+=1;
+  let boi = document.getElementById('bruh');
+  document.body.style.backgroundColor="#"+i;
+}
+function draw(){
+  var ctx = document.getElementById('canvas').getContext('2d');
+  ctx.clearRect(0, 0, 900, 700);
+  ctx.fillStyle = randomC();
+  ctx.strokeStyle = randomC();
+  ctx.globalCompositeOperation = 'destination-over';
+randColour();
+  ctx.save();
+  ctx.lineWidth = 6;
+  ctx.translate(450, 250);
+  drawArt(ctx);
+  ctx.restore();
+  window.requestAnimationFrame(draw);
+}
 function beginGame() {
 
   gameIsRunning = true;
@@ -235,3 +295,4 @@ document.getElementById("redButton").addEventListener("click", function() {
 
   console.log(playerMoves);
 });
+draw();
